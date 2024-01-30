@@ -9,7 +9,13 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
+import { useClicker } from '../stores/clicker'
+
 import FactoryListItem from './FactoryListItem.vue'
 
-const factories = []
+const clicker = useClicker()
+
+const factories = computed(() => Object.values(clicker.factories))
 </script>

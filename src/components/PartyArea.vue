@@ -2,8 +2,9 @@
   <section class="partyArea">
     <!-- Party content -->
     <h1>Pinia's Party</h1>
-    <h2><!-- TODO:BALANCE --> confetti</h2>
-    <button>
+    <h2>{{ clicker.balance }} confetti</h2>
+    <span>per second: {{  clicker.confettiPerSecond }}</span>
+    <button @click=clicker.click>
       <div class="inner">✨</div>
     </button>
     <!-- Confetti canvas -->
@@ -14,6 +15,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import Confetti from 'js-confetti'
+
+import { useClicker } from '../stores/clicker'
+
+const clicker = useClicker()
 
 // Setup confetti canvas
 const canvas = ref(null)
@@ -30,4 +35,19 @@ onMounted(() => {
     canvas: canvas.value
   })
 })
+
+// On action handlers
+const onActionHandler = ({ name, store }) => {
+  switch (name) {
+    case 'click':
+      addConfetti()
+      break
+
+    case 'tick':
+      addConfetti(Math.floor(Math.log10(store.confettiPerSecond + 1)))
+      break
+  }
+}
+
+clicker.$onAction(onActionHandler)
 </script>

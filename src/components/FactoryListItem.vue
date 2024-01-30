@@ -2,22 +2,28 @@
   <li class="factoryListItem">
     <button
       class="nes-container is-rounded"
+      @click="clicker.buyFactory(factory.id)"
+      :disabled="!clicker.canBuyFactory(factory.id)"
     >
-      <figure class="emoji"><!-- TODO:EMOJI --></figure>
+      <figure class="emoji">{{ factory.emoji }}</figure>
       <div class="info">
-        <strong><!-- TODO:NAME --></strong>
+        <strong>{{ factory.name }}</strong>
         <small>
-          <span>✨</span><!-- TODO:PRICE -->
+          <span>✨</span>{{ clicker.factoryPrice(factory.id) }}
         </small>
         <small>
-          - <!-- TODO:CPS -->cps
+          - {{ clicker.factoryConfettiPerSecond(factory.id) }}cps
         </small>
       </div>
-      <span class="owned"><!-- TODO:OWNED --></span>
+      <span class="owned">{{ factory.owned }}</span>
     </button>
   </li>
 </template>
 
 <script setup>
+import { useClicker } from '../stores/clicker'
+
 defineProps({ factory: { type: Object, required: true } })
+
+const clicker = useClicker()
 </script>
